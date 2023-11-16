@@ -1,0 +1,18 @@
+{
+  "name": "ib-app",
+  "version": "0.1",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "stop": "pkill --signal SIGINT ib"
+  },
+  "dependencies": {
+    "lodash": "^4.17.10"
+  },
+  "devDependencies": {
+    "chalk": "^2.3.0",
+    "matchdep": "^2.0.0",
+    "mocha": "^10.2.0",
+    "moment": "^2.20.1"
+  }
+}
