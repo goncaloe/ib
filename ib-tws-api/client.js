@@ -34,6 +34,7 @@ class Client {
     this._emitter = new EventEmitter();
     this._emitter.on('error', (e) => {
       // error handler to ignore it by default
+      //console.error("Erro: ", e);
     });
 
     this._connectionPromise = null;

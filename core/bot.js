@@ -3,8 +3,8 @@
 var bot = {
     //startTime: util.getTime(),
 
-    contracts: [], // symbol: Obj Contaract
-    zombies: [], // symbol: Obj Contaract
+    contracts: {}, // symbol: Obj Contaract
+    zombies: {}, // symbol: Obj Contaract
 
 };
 
