@@ -79,3 +79,8 @@ h4.section {
   z-index: -1;
   margin: 4px;
 }
+
+tr.zombie td {
+  text-decoration: line-through;
+  color: #cccccc;
+}

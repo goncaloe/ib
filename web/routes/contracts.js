@@ -29,20 +29,29 @@ wss.on('connection', function (ws) {
 
 
 function ws_script(){
-    return `<script>
+    return `<script type="application/javascript">
         var ws = new WebSocket('ws://localhost:40510');
 
-        var processWsData = function(data){
+        var processWsData = function(data) {
             //for(let sign in bot.contracts){ 
             var tab = $('#contracts_table');
             
+            var symbols = {};
+            tab.find('tbody tr').each(function(){ 
+                symbols[$(this).data('symbol')] = 1;
+            });
+            
             for(let symb in data.contracts){
+                delete symbols[symb];
+                
                 var c = data.contracts[symb];
-    
                 var tr = tab.find('.contract_'+symb);
-                if(!tr.length){
+                if(tr.length){
+                    tr.removeClass('zombie');    
+                }
+                else {
                     //create
-                    tr = '<tr class="contract_' + symb + '">';
+                    tr = '<tr class="contract_' + symb + '" data-symbol="' + symb + '">';
                     tr += '<td>'+ symb +'</td>';
                     tr += '<td class="5m"></td>';
                     tr += '<td class="15m"></td>';
@@ -106,13 +115,23 @@ function ws_script(){
                             console.log('faz PLAY:', symb);
                             
                             $('#sound1')[0].play();
+                            
+                            
+                            if (Notification.permission !== 'granted') {
+                                Notification.requestPermission();
+                            } else {
+                                notification = new Notification('Notification', {
+                                    body: symb + ' subiu mais de 10%',
+                                    dir: 'ltr',
+                                });
+                            }
                         }
                     }
-                    
                 }
                 else {
                     m5Col.html('').css('background-color', '');
                 }
+                
                 if(count >= 4){
                     let prev1 = parseFloat(c.candles_5m[count-1].close);
                     let prev2 = parseFloat(c.candles_5m[count-4].close);
@@ -142,38 +161,47 @@ function ws_script(){
                 }
                 
                 lastCol.html(parseFloat(c.candles_5m[count-1].close));
+                
+            }
             
+            for(let symb in symbols){
+                var tr = tab.find('.contract_'+symb);
+                tr.addClass('zombie');
+                tr.insertAfter(tr.siblings(':last'));
             }
         }
         
         ws.onopen = function () {
-            console.log('websocket is connected ...')
+            console.log('websocket is connected ...');
             ws.send('connected')
+            
+            var conn = $('#connection');
+            setInterval(function(){
+                var time = Date.now();
+                var mtime = ws.messageTime;
+                if(mtime > (time - 10000)){
+                    conn.css('color', '#00FF00').html('Ligado');
+                }
+                else {
+                    conn.css('color', '#FF0000').html('Desligado');
+                }
+            }, 1000);
         }
     
         ws.onmessage = function (ev) {
             var data = JSON.parse(ev.data);
             processWsData(data);
             console.log(data);
+            
+            ws.messageTime = Date.now();
         }
     </script>`;
 }
 
 module.exports = async function(ctx) {
 
-
-
-
-    let tab = [];
-    tab.push(['Simbolo', '#Candles', '']);
-
-    for(let sign in bot.contracts){
-        let c = bot.contracts[sign];
-        let links = '<a href="/chart?sign=' + sign + '">chart</a>';
-        tab.push([sign, c.candles_5m ? c.candles_5m.length : 0, links]);
-    }
-
     let c = '<h2>Contratos</h2>';
+    c += '<span id="connection" class="float-right text-small"></span>';
     //c += html.renderTable(tab);
     let h = '<table id="contracts_table" class="table datalist"><thead><tr>';
     h += '<th>Symb</th>';
