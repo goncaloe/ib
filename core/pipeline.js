@@ -70,7 +70,7 @@ Pipeline.prototype.onScannerData = function(items) {
             bot.contracts[symb] = c;
             delete bot.zombies[symb];
             //bot.zombies.splice(idx, 1);
-            console.log("Move " + symb + "dos zombies para ativos!");
+            console.log("Move " + symb + " dos zombies para ativos");
         }
         else {
             if(['MWG', 'CANF'].indexOf(symb) !== -1){
@@ -97,8 +97,8 @@ Pipeline.prototype.onScannerData = function(items) {
     }
 
     //console.clear();
-    console.log('contracts[' + Object.keys(bot.contracts).length + ']: ' + Object.keys(bot.contracts).join(', '));
-    console.log('zombies[' + Object.keys(bot.zombies).length + ']: ' + Object.keys(bot.zombies).join(', '));
+    console.log('Ativos[' + Object.keys(bot.contracts).length + ']: ' + Object.keys(bot.contracts).join(', '));
+    console.log('Zombies[' + Object.keys(bot.zombies).length + ']: ' + Object.keys(bot.zombies).join(', '));
 
     setTimeout(() => {
         //this.printContracts();

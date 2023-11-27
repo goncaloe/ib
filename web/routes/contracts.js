@@ -45,13 +45,13 @@ function ws_script(){
                 delete symbols[symb];
                 
                 var c = data.contracts[symb];
-                var tr = tab.find('.contract_'+symb);
+                var tr = tab.find('.contract_'+symb.replace(' ', '_'));
                 if(tr.length){
-                    tr.removeClass('zombie');    
+                    tr.removeClass('zombie');
                 }
                 else {
                     //create
-                    tr = '<tr class="contract_' + symb + '" data-symbol="' + symb + '">';
+                    tr = '<tr class="contract_' + symb.replace(' ', '_') + '" data-symbol="' + symb + '">';
                     tr += '<td>'+ symb +'</td>';
                     tr += '<td class="5m"></td>';
                     tr += '<td class="15m"></td>';
@@ -165,7 +165,7 @@ function ws_script(){
             }
             
             for(let symb in symbols){
-                var tr = tab.find('.contract_'+symb);
+                var tr = tab.find('.contract_'+symb.replace(' ', '_'));
                 tr.addClass('zombie');
                 tr.insertAfter(tr.siblings(':last'));
             }
@@ -200,7 +200,7 @@ function ws_script(){
 
 module.exports = async function(ctx) {
 
-    let c = '<h2>Contratos</h2>';
+    let c = '<h2><a href="/">Scanner TWS</a></h2>';
     c += '<span id="connection" class="float-right text-small"></span>';
     //c += html.renderTable(tab);
     let h = '<table id="contracts_table" class="table datalist"><thead><tr>';
@@ -216,8 +216,7 @@ module.exports = async function(ctx) {
 
     c += ws_script();
 
-    c+= ` <audio id="sound1" src="./alert.mp3" preload="auto"></audio>
-         <button onclick="document.getElementById('sound1').play();">Play it</button>`;
+    c+= ` <audio id="sound1" src="./alert.mp3" preload="auto"></audio>`;
 
     ctx.body = html.renderLayout(c, ctx);
 };

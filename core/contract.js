@@ -55,7 +55,7 @@ Contract.prototype.startWatch = async function(){
             });
         }
 
-        console.log("__fix candles: ", this.symbol, ' ' + this.formatDate(new Date(nextDate)) + ' |last: ', this.formatDate(new Date(lastTs)));
+        //console.log("__fix candles: ", this.symbol, ' ' + this.formatDate(new Date(nextDate)) + ' |last: ', this.formatDate(new Date(lastTs)));
     }
 
     if(lastDate < (lastTs - tfSecs)) {
@@ -101,11 +101,11 @@ Contract.prototype.startWatch = async function(){
 
     setTimeout(async () => {
         this.fixCandlesInterval = setInterval(async () => {
-            console.log('fix2 ' + this.symbol);
+            //console.log('fix2 ' + this.symbol);
             lastTs = util.normalizeTimestamp(await util.getTime());
             fixCandles(lastTs);
         }, tfSecs);
-        console.log('fix ' + this.symbol);
+        //console.log('fix ' + this.symbol);
         lastTs = util.normalizeTimestamp(await util.getTime());
         fixCandles(lastTs);
     }, lastTs + tfSecs - currTime);

@@ -2,7 +2,7 @@ var _ = require('lodash');
 
 module.exports = {
     renderLayout: function(data, ctx) {
-        let nav = this.renderNav(ctx);
+        //let nav = this.renderNav(ctx);
         let content = '',footer = '';
         if(typeof data === 'object'){
             content = data[0];
@@ -15,14 +15,13 @@ module.exports = {
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Bot</title>
+    <title>Scanner TWS</title>
     <link rel="stylesheet" href="./bootstrap.css">
     <link rel="stylesheet" href="./webbot.css?v2">
     <script src="./jquery-3.1.1.min.js"></script>
     <script src="./main.js"></script>
 </head>
 <body>
-    ${nav}
     <div id="content">
         <main class="container">    
         ${content}
