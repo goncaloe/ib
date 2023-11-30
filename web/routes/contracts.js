@@ -167,6 +167,8 @@ function ws_script(){
             for(let symb in symbols){
                 var tr = tab.find('.contract_'+symb.replace(' ', '_'));
                 tr.addClass('zombie');
+                tr.find('.5m').html('').css('background-color', '');
+                tr.find('.15m').html('').css('background-color', '');
                 tr.insertAfter(tr.siblings(':last'));
             }
         }
